@@ -1,26 +1,45 @@
 import math
 
 
-def calculate_credits(perf, play):
-    result = max(perf['audience'] - 30, 0)
-    if play['type'] == "comedy":
-        result += math.floor(perf['audience'] / 5)
+def tragedy_amount(perf):
+    result = 40000
+    if perf['audience'] > 30:
+        result += 1000 * (perf['audience'] - 30)
     return result
+
+
+def comedy_amount(perf):
+    result = 30000
+    if perf['audience'] > 20:
+        result += 10000 + 500 * (perf['audience'] - 20)
+    result += 300 * perf['audience']
+    return result
+
+
+def tragedy_credits(perf):
+    return max(perf['audience'] - 30, 0)
+
+
+def comedy_credits(perf):
+    return max(perf['audience'] - 30, 0) + math.floor(perf['audience'] / 5)
+
+
+def calculate_credits(perf, play):
+    if play['type'] == "tragedy":
+        return tragedy_credits(perf)
+    elif play['type'] == "comedy":
+        return comedy_credits(perf)
+    else:
+        return max(perf['audience'] - 30, 0)
 
 
 def amount_for(perf, play):
     if play['type'] == "tragedy":
-        result = 40000
-        if perf['audience'] > 30:
-            result += 1000 * (perf['audience'] - 30)
+        return tragedy_amount(perf)
     elif play['type'] == "comedy":
-        result = 30000
-        if perf['audience'] > 20:
-            result += 10000 + 500 * (perf['audience'] - 20)
-        result += 300 * perf['audience']
+        return comedy_amount(perf)
     else:
         raise ValueError(f'unknown type: {play["type"]}')
-    return result
 
 
 def play_for(perf, plays):
