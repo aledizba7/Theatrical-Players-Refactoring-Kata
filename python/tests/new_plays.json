@@ -1,4 +1,4 @@
 {
-  "henry-v": {"name": "Henry V", "type": "history"},
-  "as-like": {"name": "As You Like It", "type": "pastoral"}
+  "henry-v": {"name": "Henry V", "type": "opera"},
+  "as-like": {"name": "As You Like It", "type": "musical"}
 }

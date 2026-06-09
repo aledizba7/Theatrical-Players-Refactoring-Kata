@@ -36,11 +36,37 @@ class ComedyCalculator(PlayCalculator):
         return max(self.performance['audience'] - 30, 0) + math.floor(self.performance['audience'] / 5)
 
 
+class HistoryCalculator(PlayCalculator):
+    def amount(self):
+        result = 50000
+        if self.performance['audience'] > 30:
+            result += 1500 * (self.performance['audience'] - 30)
+        return result
+
+    def volume_credits(self):
+        return max(self.performance['audience'] - 30, 0) + math.floor(self.performance['audience'] / 10)
+
+
+class PastoralCalculator(PlayCalculator):
+    def amount(self):
+        result = 25000
+        if self.performance['audience'] > 15:
+            result += 800 * (self.performance['audience'] - 15)
+        return result
+
+    def volume_credits(self):
+        return max(self.performance['audience'] - 30, 0) + math.floor(self.performance['audience'] / 8)
+
+
 def create_play_calculator(performance, play):
     if play['type'] == "tragedy":
         return TragedyCalculator(performance, play)
     elif play['type'] == "comedy":
         return ComedyCalculator(performance, play)
+    elif play['type'] == "history":
+        return HistoryCalculator(performance, play)
+    elif play['type'] == "pastoral":
+        return PastoralCalculator(performance, play)
     else:
         raise ValueError(f"unknown type: {play['type']}")
 
